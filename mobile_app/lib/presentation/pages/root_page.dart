@@ -17,8 +17,25 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final glass = Theme.of(context).extension<GlassTheme>()!;
-    return GetBuilder<RootController>(
-      builder: (controller) => Scaffold(
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFF6B6B), // สีแดงสด
+            Color(0xFF4ECDC4), // สีเขียวมิ้น
+            Color(0xFF45B7D1), // สีฟ้าสด
+            Color(0xFF96CEB4), // สีเขียวอ่อน
+          ],
+          stops: [0.0, 0.3, 0.7, 1.0],
+        ),
+      ),
+      child: GetBuilder<RootController>(
+        builder: (controller) => Scaffold(
+          backgroundColor: Colors.transparent,
+          extendBody: true,
+          extendBodyBehindAppBar: true,
         body: Obx(() => IndexedStack(
           index: controller.currentIndex,
           children: const [
@@ -56,6 +73,7 @@ class RootPage extends StatelessWidget {
             ),
           ],
         )),
+        ),
       ),
     );
   }

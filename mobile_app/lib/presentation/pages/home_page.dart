@@ -11,6 +11,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
         appBar: GlassAppBar(
           title: 'IT Shop',
           actions: [
@@ -22,7 +24,9 @@ class HomePage extends StatelessWidget {
         ),
         body: Obx(() {
           if (controller.isLoading) {
-            return const Center(
+            return Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+              child: const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -41,10 +45,13 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
             );
           }
           
-          return RefreshIndicator(
+          return Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+            child: RefreshIndicator(
             onRefresh: () => controller.refreshData(),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -177,6 +184,7 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 20),
                 ],
               ),
+            ),
             ),
           );
         }),

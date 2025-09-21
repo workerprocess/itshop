@@ -16,6 +16,8 @@ class SearchPage extends StatelessWidget {
     final controller = Get.find<ProductSearchController>();
     
     return Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
         appBar: GlassAppBar(
           title: 'Search',
           actions: [
@@ -33,10 +35,12 @@ class SearchPage extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            // Search Bar
-            Padding(
+        body: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+          child: Column(
+            children: [
+              // Search Bar
+              Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
                 controller: controller.textSearchController,
@@ -175,6 +179,7 @@ class SearchPage extends StatelessWidget {
               }),
             ),
           ],
+        ),
         ),
       );
   }

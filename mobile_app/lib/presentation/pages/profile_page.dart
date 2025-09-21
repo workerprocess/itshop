@@ -11,6 +11,8 @@ class ProfilePage extends StatelessWidget {
     final controller = Get.find<ProfileController>();
     
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
       appBar: GlassAppBar(
         title: 'Profile',
         actions: [
@@ -22,7 +24,9 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.isLoading) {
-          return const Center(
+          return Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+            child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -38,13 +42,16 @@ class ProfilePage extends StatelessWidget {
                     fontSize: 18,
                     color: Colors.grey,
                   ),
-                ),
-              ],
-            ),
-          );
-        }
-        
-        return SingleChildScrollView(
+              ),
+            ],
+          ),
+          ),
+        );
+      }
+      
+      return Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
@@ -67,6 +74,7 @@ class ProfilePage extends StatelessWidget {
               _buildAppInfo(),
             ],
           ),
+        ),
         );
       }),
     );

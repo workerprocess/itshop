@@ -101,7 +101,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-      scaffoldBackgroundColor: const Color(0xFFEFF3F7),
+      scaffoldBackgroundColor: const Color(0xFFF8F9FA),
       extensions: <ThemeExtension<dynamic>>[_lightGlass],
     );
 
@@ -109,7 +109,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo, brightness: Brightness.dark),
-      scaffoldBackgroundColor: const Color(0xFF0E1116),
+      scaffoldBackgroundColor: const Color(0xFF121212),
       extensions: <ThemeExtension<dynamic>>[_darkGlass],
     );
 }

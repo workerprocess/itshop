@@ -30,8 +30,8 @@ class GlassBottomNav extends StatelessWidget {
             gradient: glass.gradient.scale(glass.opacity),
             border: Border(top: BorderSide(color: glass.borderColor, width: glass.borderWidth)),
           ),
-          child: SafeArea(
-            top: false,
+          // child: SafeArea(
+            // top: false,
             child: BottomNavigationBar(
               type: type,
               currentIndex: currentIndex,
@@ -43,7 +43,7 @@ class GlassBottomNav extends StatelessWidget {
               unselectedItemColor: (isDark ? Colors.white70 : Colors.black54),
               items: items,
             ),
-          ),
+          // ),
         ),
       ),
     );

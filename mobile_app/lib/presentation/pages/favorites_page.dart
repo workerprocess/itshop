@@ -14,6 +14,8 @@ class FavoritesPage extends StatelessWidget {
     final controller = Get.find<FavoritesController>();
     
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
       appBar: GlassAppBar(
         title: 'Favorites',
         actions: [
@@ -40,7 +42,9 @@ class FavoritesPage extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.isLoading) {
-          return const Center(
+          return Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+            child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -56,17 +60,23 @@ class FavoritesPage extends StatelessWidget {
                     fontSize: 18,
                     color: Colors.grey,
                   ),
-                ),
-              ],
-            ),
-          );
-        }
-        
-        if (controller.favoriteProducts.isEmpty) {
-          return _buildEmptyState();
-        }
-        
-        return Column(
+              ),
+            ],
+          ),
+          ),
+        );
+      }
+      
+      if (controller.favoriteProducts.isEmpty) {
+        return Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+          child: _buildEmptyState(),
+        );
+      }
+      
+      return Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+        child: Column(
           children: [
             // Favorites Count
             Container(
@@ -111,6 +121,7 @@ class FavoritesPage extends StatelessWidget {
                     ),
             ),
           ],
+        ),
         );
       }),
     );

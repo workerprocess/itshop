@@ -13,6 +13,8 @@ class ProductsPage extends StatelessWidget {
     final controller = Get.find<ProductsController>();
     
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
       appBar: GlassAppBar(
         title: 'Products',
         actions: [
@@ -32,7 +34,9 @@ class ProductsPage extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.isLoading) {
-          return const Center(
+          return Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+            child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -48,14 +52,17 @@ class ProductsPage extends StatelessWidget {
                     fontSize: 18,
                     color: Colors.grey,
                   ),
-                ),
-              ],
-            ),
-          );
-        }
-        
-        if (controller.products.isEmpty) {
-          return const Center(
+              ),
+            ],
+          ),
+          ),
+        );
+      }
+      
+      if (controller.products.isEmpty) {
+        return Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+          child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -82,10 +89,13 @@ class ProductsPage extends StatelessWidget {
                 ),
               ],
             ),
+          ),
           );
         }
         
-        return controller.isGridView
+        return Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+          child: controller.isGridView
             ? ProductGridView(
                 products: controller.products,
                 isLoading: controller.isLoading,
@@ -95,7 +105,8 @@ class ProductsPage extends StatelessWidget {
                 products: controller.products,
                 isLoading: controller.isLoading,
                 onRefresh: () => controller.refreshProducts(),
-              );
+              ),
+        );
       }),
     );
   }
