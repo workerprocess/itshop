@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/core/themes/app_themes.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 import 'package:mobile_app/routes/app_pages.dart';
 import 'package:mobile_app/routes/app_routes.dart';
 
@@ -15,8 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'IT Shop',
-      theme: AppThemes.lightTheme,
-      darkTheme: AppThemes.darkTheme,
+      theme: GlassTheme.lightTheme,
+      darkTheme: GlassTheme.darkTheme,
       themeMode: ThemeMode.system,
       initialRoute: AppRoutes.root,
       getPages: AppPages.routes,
