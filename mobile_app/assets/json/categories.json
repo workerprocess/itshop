@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cat_001",
+    "name": "Computers",
+    "description": "Laptops, desktops, and workstations",
+    "icon": "assets/icons/computer.svg",
+    "parentId": "",
+    "subcategories": ["laptops", "desktops", "workstations"],
+    "productCount": 45,
+    "isActive": true
+  },
+  {
+    "id": "cat_002",
+    "name": "Phones",
+    "description": "Smartphones and mobile devices",
+    "icon": "assets/icons/phone.svg",
+    "parentId": "",
+    "subcategories": ["smartphones", "feature-phones"],
+    "productCount": 32,
+    "isActive": true
+  },
+  {
+    "id": "cat_003",
+    "name": "Tablets",
+    "description": "Tablets and e-readers",
+    "icon": "assets/icons/tablet.svg",
+    "parentId": "",
+    "subcategories": ["ipads", "android-tablets", "e-readers"],
+    "productCount": 18,
+    "isActive": true
+  },
+  {
+    "id": "cat_004",
+    "name": "Accessories",
+    "description": "Cases, chargers, and peripherals",
+    "icon": "assets/icons/accessories.svg",
+    "parentId": "",
+    "subcategories": ["cases", "chargers", "keyboards", "mice"],
+    "productCount": 67,
+    "isActive": true
+  },
+  {
+    "id": "cat_005",
+    "name": "Networking",
+    "description": "Routers, switches, and networking equipment",
+    "icon": "assets/icons/networking.svg",
+    "parentId": "",
+    "subcategories": ["routers", "switches", "access-points"],
+    "productCount": 23,
+    "isActive": true
+  }
+]

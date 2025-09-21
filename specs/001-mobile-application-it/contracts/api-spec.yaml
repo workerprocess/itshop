@@ -1,0 +1,498 @@
+openapi: 3.0.3
+info:
+  title: IT Shop Mobile API
+  description: API for IT product sales mobile application
+  version: 1.0.0
+  contact:
+    name: IT Shop Team
+    email: support@itshop.com
+
+servers:
+  - url: https://api.itshop.com/v1
+    description: Production server
+  - url: https://staging-api.itshop.com/v1
+    description: Staging server
+
+paths:
+  /products:
+    get:
+      summary: Get products list
+      description: Retrieve paginated list of IT products
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [price_asc, price_desc, rating_desc, newest]
+            default: newest
+      responses:
+        '200':
+          description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /products/{id}:
+    get:
+      summary: Get product by ID
+      description: Retrieve detailed information about a specific product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /products/featured:
+    get:
+      summary: Get featured products
+      description: Retrieve best-selling and recommended products for home screen
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [best_sellers, recommended, both]
+            default: both
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Featured products retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeaturedProductsResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /categories:
+    get:
+      summary: Get categories list
+      description: Retrieve all product categories organized by IT standards
+      responses:
+        '200':
+          description: Categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /categories/{id}/products:
+    get:
+      summary: Get products by category
+      description: Retrieve products filtered by specific category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Category products retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /search:
+    get:
+      summary: Search products
+      description: Search products by query with filters
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: min_price
+          in: query
+          schema:
+            type: number
+        - name: max_price
+          in: query
+          schema:
+            type: number
+        - name: brand
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Search results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - price
+        - category
+        - images
+        - brand
+      properties:
+        id:
+          type: string
+          example: "prod_001"
+        name:
+          type: string
+          example: "MacBook Pro 16-inch"
+        description:
+          type: string
+          example: "Powerful laptop for professionals"
+        price:
+          type: number
+          format: decimal
+          example: 89990.00
+        category:
+          type: string
+          example: "computers"
+        images:
+          type: array
+          items:
+            type: string
+          example: ["https://example.com/macbook1.jpg"]
+        brand:
+          type: string
+          example: "Apple"
+        specifications:
+          type: object
+          additionalProperties: true
+          example:
+            processor: "M2 Pro"
+            memory: "16GB"
+            storage: "512GB SSD"
+        isRecommended:
+          type: boolean
+          example: true
+        isBestSeller:
+          type: boolean
+          example: true
+        rating:
+          type: number
+          format: decimal
+          minimum: 0.0
+          maximum: 5.0
+          example: 4.8
+        reviewCount:
+          type: integer
+          example: 1250
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2024-12-19T00:00:00Z"
+
+    Category:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - icon
+      properties:
+        id:
+          type: string
+          example: "cat_001"
+        name:
+          type: string
+          example: "Computers"
+        description:
+          type: string
+          example: "Laptops, desktops, and workstations"
+        icon:
+          type: string
+          example: "assets/icons/computer.svg"
+        parentId:
+          type: string
+          example: ""
+        subcategories:
+          type: array
+          items:
+            type: string
+          example: ["laptops", "desktops", "workstations"]
+        productCount:
+          type: integer
+          example: 45
+        isActive:
+          type: boolean
+          example: true
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 100
+        hasNext:
+          type: boolean
+          example: true
+        hasPrev:
+          type: boolean
+          example: false
+
+    ProductListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+        message:
+          type: string
+          example: "Products retrieved successfully"
+
+    ProductResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          $ref: '#/components/schemas/Product'
+        message:
+          type: string
+          example: "Product retrieved successfully"
+
+    FeaturedProductsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            bestSellers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+            recommended:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+        message:
+          type: string
+          example: "Featured products retrieved successfully"
+
+    CategoryListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/Category'
+        message:
+          type: string
+          example: "Categories retrieved successfully"
+
+    SearchResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+            query:
+              type: string
+              example: "MacBook Pro"
+            filters:
+              type: object
+              additionalProperties: true
+        message:
+          type: string
+          example: "Search completed successfully"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "PRODUCT_NOT_FOUND"
+            message:
+              type: string
+              example: "Product not found"
+            details:
+              type: string
+              example: "Product with ID 'prod_001' does not exist"
+            timestamp:
+              type: string
+              format: date-time
+              example: "2024-12-19T10:30:00Z"
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []

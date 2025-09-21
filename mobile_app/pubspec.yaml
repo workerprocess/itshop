@@ -1,0 +1,47 @@
+name: mobile_app
+description: "IT Shop Mobile Application with Clean Architecture and GetX"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI
+  cupertino_icons: ^1.0.8
+  
+  # State Management & Navigation
+  get: ^4.7.2
+  
+  # HTTP Client
+  dio: ^5.9.0
+  
+  # Local Storage
+  shared_preferences: ^2.5.3
+  
+  # JSON Serialization
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  
+  # Code Generation
+  build_runner: ^2.8.0
+  json_serializable: ^6.11.1
+  
+  # Testing
+  mockito: ^5.5.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/json/
+    - assets/fonts/
