@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/products_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
@@ -12,8 +13,8 @@ class ProductsPage extends StatelessWidget {
     final controller = Get.find<ProductsController>();
     
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Products'),
+      appBar: GlassAppBar(
+        title: 'Products',
         actions: [
           // View Mode Toggle
           Obx(() => IconButton(

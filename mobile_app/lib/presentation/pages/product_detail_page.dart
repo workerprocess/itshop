@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/domain/entities/product.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -13,8 +14,8 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
+      appBar: GlassAppBar(
+        title: product.name,
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite_border),

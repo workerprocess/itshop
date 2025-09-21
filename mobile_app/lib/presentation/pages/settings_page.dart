@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/profile_controller.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -9,8 +10,8 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
       builder: (controller) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Settings'),
+        appBar: GlassAppBar(
+          title: 'Settings',
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Get.back(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/home_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_card.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,8 +11,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => Scaffold(
-        appBar: AppBar(
-          title: const Text('IT Shop'),
+        appBar: GlassAppBar(
+          title: 'IT Shop',
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),

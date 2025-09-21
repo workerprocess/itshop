@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/profile_controller.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -10,8 +11,8 @@ class ProfilePage extends StatelessWidget {
     final controller = Get.find<ProfileController>();
     
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
+      appBar: GlassAppBar(
+        title: 'Profile',
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),

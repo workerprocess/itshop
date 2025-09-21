@@ -4,6 +4,7 @@ import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/presentation/controllers/favorites_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
@@ -13,8 +14,8 @@ class FavoritesPage extends StatelessWidget {
     final controller = Get.find<FavoritesController>();
     
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites'),
+      appBar: GlassAppBar(
+        title: 'Favorites',
         actions: [
           // View Mode Toggle
           Obx(() => IconButton(

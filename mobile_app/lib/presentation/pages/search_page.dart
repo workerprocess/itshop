@@ -5,6 +5,7 @@ import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/presentation/controllers/product_search_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -15,8 +16,8 @@ class SearchPage extends StatelessWidget {
     final controller = Get.find<ProductSearchController>();
     
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Search'),
+        appBar: GlassAppBar(
+          title: 'Search',
           actions: [
             // View Mode Toggle
             Obx(() => IconButton(
