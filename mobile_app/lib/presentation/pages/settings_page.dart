@@ -8,8 +8,24 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(
-      builder: (controller) => Scaffold(
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFF6B6B), // สีแดงสด
+            Color(0xFF4ECDC4), // สีเขียวมิ้น
+            Color(0xFF45B7D1), // สีฟ้าสด
+            Color(0xFF96CEB4), // สีเขียวอ่อน
+          ],
+          stops: [0.0, 0.3, 0.7, 1.0],
+        ),
+      ),
+      child: GetBuilder<ProfileController>(
+        builder: (controller) => Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
         appBar: GlassAppBar(
           title: 'Settings',
           leading: IconButton(
@@ -17,8 +33,10 @@ class SettingsPage extends StatelessWidget {
             onPressed: () => Get.back(),
           ),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+        body: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -45,6 +63,8 @@ class SettingsPage extends StatelessWidget {
               _buildAboutSection(),
             ],
           ),
+          ),
+        ),
         ),
       ),
     );

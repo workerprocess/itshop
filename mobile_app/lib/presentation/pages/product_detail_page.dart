@@ -13,7 +13,23 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFF6B6B), // สีแดงสด
+            Color(0xFF4ECDC4), // สีเขียวมิ้น
+            Color(0xFF45B7D1), // สีฟ้าสด
+            Color(0xFF96CEB4), // สีเขียวอ่อน
+          ],
+          stops: [0.0, 0.3, 0.7, 1.0],
+        ),
+      ),
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
       appBar: GlassAppBar(
         title: product.name,
         actions: [
@@ -31,8 +47,10 @@ class ProductDetailPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+        child: SingleChildScrollView(
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Product Images
@@ -50,9 +68,11 @@ class ProductDetailPage extends StatelessWidget {
             // Related Products
             _buildRelatedProducts(),
           ],
+          ),
         ),
       ),
       bottomNavigationBar: _buildBottomBar(),
+      ),
     );
   }
 
