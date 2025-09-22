@@ -6,6 +6,7 @@ import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
+import 'package:mobile_app/presentation/controllers/auth_controller.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -18,9 +19,23 @@ class HomePage extends GetView<HomeController> {
         appBar: GlassAppBar(
           title: 'IT Shop',
           actions: [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () => Get.toNamed('/settings'),
+            GetX<AuthController>(
+              init: Get.find<AuthController>(),
+              builder: (auth) {
+                if (!auth.isInitialized) {
+                  return const SizedBox.shrink();
+                }
+                if (auth.isSignedIn) {
+                  // ไม่แสดงชื่อหรือไอคอนใดๆ เมื่อเข้าสู่ระบบแล้ว
+                  return const SizedBox.shrink();
+                } else {
+                  return IconButton(
+                    icon: const Icon(Icons.login_outlined, color: Colors.lightGreen), 
+                    tooltip: 'Sign in',
+                    onPressed: () => Get.toNamed('/signin'),
+                  );
+                }
+              },
             ),
           ],
         ),

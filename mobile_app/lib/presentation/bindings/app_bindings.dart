@@ -10,6 +10,7 @@ import 'package:mobile_app/domain/usecases/category_usecases.dart';
 import 'package:mobile_app/domain/usecases/user_activity_usecases.dart';
 import 'package:mobile_app/domain/repositories/user_activity_repository.dart';
 import 'package:mobile_app/data/repositories/user_activity_repository_impl.dart';
+import 'package:mobile_app/presentation/controllers/auth_controller.dart';
 
 class AppBindings extends Bindings {
   @override
@@ -24,6 +25,7 @@ class AppBindings extends Bindings {
     Get.put<ProductRepository>(ProductRepositoryImpl(Get.find(), useMockData: true));
     Get.put<CategoryRepository>(CategoryRepositoryImpl(Get.find(), useMockData: true));
     Get.put<UserActivityRepository>(UserActivityRepositoryImpl(Get.find()));
+    Get.put<AuthController>(AuthController(), permanent: true);
     
     // Use cases
     Get.put(GetProductsUseCase(Get.find()));

@@ -6,6 +6,8 @@ import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_divider.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
+import 'package:mobile_app/presentation/controllers/auth_controller.dart';
+import 'package:mobile_app/routes/app_routes.dart';
 
 class SettingsPage extends GetView<ProfileController> {
   const SettingsPage({super.key});
@@ -184,6 +186,48 @@ class SettingsPage extends GetView<ProfileController> {
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               Get.snackbar('ความเป็นส่วนตัว', 'กำลังเปิดหน้าการตั้งค่าความเป็นส่วนตัว');
+            },
+          ),
+          Divider(height: 1, color: glass.borderColor),
+          GetX<AuthController>(
+            init: Get.find<AuthController>(),
+            builder: (auth) {
+              if (!auth.isInitialized || !auth.isSignedIn) {
+                return const SizedBox.shrink();
+              }
+              return ListTile(
+                leading: const Icon(Icons.logout_outlined, color: Colors.redAccent),
+                title: const Text('ออกจากระบบ'),
+                subtitle: Text(auth.userEmail.isNotEmpty ? auth.userEmail : 'บัญชีปัจจุบัน'),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () async {
+                  final confirmed = await showDialog<bool>(
+                    context: Get.context!,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('ยืนยันการออกจากระบบ'),
+                        content: const Text('คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('ยกเลิก'),
+                          ),
+                          FilledButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('ออกจากระบบ'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  if (confirmed == true) {
+                    await auth.signOut();
+                    // กลับไปหน้า HomePage ทันทีหลังออกจากระบบ และรีเซ็ตสแต็ก
+                    Get.offAllNamed(AppRoutes.root);
+                    Get.snackbar('ออกจากระบบ', 'คุณได้ออกจากระบบแล้ว');
+                  }
+                },
+              );
             },
           ),
         ],
