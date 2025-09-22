@@ -4,6 +4,7 @@ import 'package:mobile_app/presentation/controllers/profile_controller.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
+import 'package:mobile_app/presentation/controllers/auth_controller.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({super.key});
@@ -63,15 +64,24 @@ class ProfilePage extends GetView<ProfileController> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // Profile Header
-              _buildProfileHeader(context),
-              
-              const SizedBox(height: 24),
-              
-              // Profile Menu Items
-              _buildMenuItems(context),
-              
-              const SizedBox(height: 24),
+              // เฉพาะส่วนที่เกี่ยวกับผู้ใช้ ให้แสดงเมื่อเข้าสู่ระบบแล้วเท่านั้น
+              GetX<AuthController>(
+                builder: (auth) {
+                  if (!auth.isInitialized || !auth.isSignedIn) {
+                    return const SizedBox.shrink();
+                  }
+                  return Column(
+                    children: [
+                      // Profile Header
+                      _buildProfileHeader(context),
+                      const SizedBox(height: 24),
+                      // Profile Menu Items (ที่เกี่ยวกับผู้ใช้)
+                      _buildMenuItems(context),
+                      const SizedBox(height: 24),
+                    ],
+                  );
+                },
+              ),
               
               // Theme Toggle - ใช้ Obx สำหรับ theme changes
               Obx(() => _buildThemeToggle(context, controller)),

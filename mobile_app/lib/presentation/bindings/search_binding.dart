@@ -6,6 +6,8 @@ class SearchBinding extends Bindings {
   void dependencies() {
     // Initialize search controller only
     // App dependencies are already initialized in RootBinding
-    Get.put<ProductSearchController>(ProductSearchController());
+    if (!Get.isRegistered<ProductSearchController>()) {
+      Get.put<ProductSearchController>(ProductSearchController());
+    }
   }
 }

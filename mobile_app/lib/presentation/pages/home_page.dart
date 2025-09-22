@@ -20,7 +20,6 @@ class HomePage extends GetView<HomeController> {
           title: 'IT Shop',
           actions: [
             GetX<AuthController>(
-              init: Get.find<AuthController>(),
               builder: (auth) {
                 if (!auth.isInitialized) {
                   return const SizedBox.shrink();
@@ -76,75 +75,87 @@ class HomePage extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  // Membership / Rewards (Glass)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: const Text(
-                      'สมาชิก/รีวอร์ด',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Builder(
-                      builder: (context) {
-                        final glass = Theme.of(context).extension<GlassTheme>()!;
-                        final status = controller.membershipStatus;
-                        final int points = status?.points ?? 0;
-                        final int nextTierPoints = status?.nextTierPoints ?? 1;
-                        final String tier = status?.tier ?? '-';
-                        final double progress = points / (nextTierPoints == 0 ? 1 : nextTierPoints);
-                        return GlassContainer(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.emoji_events, color: glass.borderColor),
-                                  const SizedBox(width: 8),
-                                  Text('ระดับ: $tier', style: const TextStyle(fontWeight: FontWeight.w600)),
-                                  const Spacer(),
-                                  Text(
-                                    '$points/$nextTierPoints คะแนน',
-                                    style: TextStyle(color: glass.borderColor),
-                                  ),
-                                ],
+                  // Membership / Rewards (Glass) - show only when signed in
+                  GetX<AuthController>(
+                    builder: (auth) {
+                      if (!auth.isInitialized || !auth.isSignedIn) {
+                        return const SizedBox.shrink();
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                            child: const Text(
+                              'สมาชิก/รีวอร์ด',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                              const SizedBox(height: 12),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: LinearProgressIndicator(
-                                  value: progress.clamp(0.0, 1.0),
-                                  minHeight: 8,
-                                  backgroundColor: glass.borderColor.withOpacity(0.15),
-                                  valueColor: AlwaysStoppedAnimation<Color>(glass.borderColor),
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Icon(Icons.card_giftcard, size: 18, color: glass.borderColor.withOpacity(0.9)),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    'แลกคูปองพิเศษได้เมื่อเป็น Silver',
-                                    style: TextStyle(color: glass.borderColor.withOpacity(0.9)),
-                                  ),
-                                  const Spacer(),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text('แลกรีวอร์ด'),
-                                  )
-                                ],
-                              ),
-                            ],
+                            ),
                           ),
-                        );
-                      },
-                    ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Builder(
+                              builder: (context) {
+                                final glass = Theme.of(context).extension<GlassTheme>()!;
+                                final status = controller.membershipStatus;
+                                final int points = status?.points ?? 0;
+                                final int nextTierPoints = status?.nextTierPoints ?? 1;
+                                final String tier = status?.tier ?? '-';
+                                final double progress = points / (nextTierPoints == 0 ? 1 : nextTierPoints);
+                                return GlassContainer(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.emoji_events, color: glass.borderColor),
+                                          const SizedBox(width: 8),
+                                          Text('ระดับ: $tier', style: const TextStyle(fontWeight: FontWeight.w600)),
+                                          const Spacer(),
+                                          Text(
+                                            '$points/$nextTierPoints คะแนน',
+                                            style: TextStyle(color: glass.borderColor),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 12),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: LinearProgressIndicator(
+                                          value: progress.clamp(0.0, 1.0),
+                                          minHeight: 8,
+                                          backgroundColor: glass.borderColor.withOpacity(0.15),
+                                          valueColor: AlwaysStoppedAnimation<Color>(glass.borderColor),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.card_giftcard, size: 18, color: glass.borderColor.withOpacity(0.9)),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            'แลกคูปองพิเศษได้เมื่อเป็น Silver',
+                                            style: TextStyle(color: glass.borderColor.withOpacity(0.9)),
+                                          ),
+                                          const Spacer(),
+                                          TextButton(
+                                            onPressed: () {},
+                                            child: const Text('แลกรีวอร์ด'),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
 
                   // Continue from last usage (Glass)

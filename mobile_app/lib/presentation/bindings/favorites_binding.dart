@@ -6,6 +6,8 @@ class FavoritesBinding extends Bindings {
   void dependencies() {
     // Initialize favorites controller only
     // App dependencies are already initialized in RootBinding
-    Get.put<FavoritesController>(FavoritesController());
+    if (!Get.isRegistered<FavoritesController>()) {
+      Get.put<FavoritesController>(FavoritesController());
+    }
   }
 }

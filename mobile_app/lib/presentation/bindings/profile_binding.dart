@@ -6,6 +6,8 @@ class ProfileBinding extends Bindings {
   void dependencies() {
     // Initialize profile controller only
     // App dependencies are already initialized in RootBinding
-    Get.put<ProfileController>(ProfileController());
+    if (!Get.isRegistered<ProfileController>()) {
+      Get.put<ProfileController>(ProfileController());
+    }
   }
 }

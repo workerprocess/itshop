@@ -48,11 +48,22 @@ class SettingsPage extends GetView<ProfileController> {
               
               const SizedBox(height: 24),
               
-              // Account Settings
-              _buildSectionTitle('บัญชีผู้ใช้'),
-              _buildAccountSettings(glass),
-              
-              const SizedBox(height: 24),
+              // Account Settings (show only when signed in)
+              GetX<AuthController>(
+                builder: (auth) {
+                  if (!auth.isInitialized || !auth.isSignedIn) {
+                    return const SizedBox.shrink();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSectionTitle('บัญชีผู้ใช้'),
+                      _buildAccountSettings(glass),
+                      const SizedBox(height: 24),
+                    ],
+                  );
+                },
+              ),
               
               // About
               _buildSectionTitle('เกี่ยวกับ'),
@@ -190,7 +201,6 @@ class SettingsPage extends GetView<ProfileController> {
           ),
           Divider(height: 1, color: glass.borderColor),
           GetX<AuthController>(
-            init: Get.find<AuthController>(),
             builder: (auth) {
               if (!auth.isInitialized || !auth.isSignedIn) {
                 return const SizedBox.shrink();

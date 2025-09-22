@@ -6,6 +6,8 @@ class HomeBinding extends Bindings {
   void dependencies() {
     // Initialize home controller only
     // App dependencies are already initialized in RootBinding
-    Get.put<HomeController>(HomeController());
+    if (!Get.isRegistered<HomeController>()) {
+      Get.put<HomeController>(HomeController());
+    }
   }
 }

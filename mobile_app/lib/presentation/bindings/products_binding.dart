@@ -6,6 +6,8 @@ class ProductsBinding extends Bindings {
   void dependencies() {
     // Initialize products controller only
     // App dependencies are already initialized in RootBinding
-    Get.put<ProductsController>(ProductsController());
+    if (!Get.isRegistered<ProductsController>()) {
+      Get.put<ProductsController>(ProductsController());
+    }
   }
 }
