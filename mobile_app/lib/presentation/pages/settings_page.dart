@@ -232,9 +232,11 @@ class SettingsPage extends GetView<ProfileController> {
                   );
                   if (confirmed == true) {
                     await auth.signOut();
-                    // กลับไปหน้า HomePage ทันทีหลังออกจากระบบ และรีเซ็ตสแต็ก
-                    Get.offAllNamed(AppRoutes.root);
-                    Get.snackbar('ออกจากระบบ', 'คุณได้ออกจากระบบแล้ว');
+                    // ปิด snackbars เดิม (ถ้ามี) แล้วแจ้งผล โดยยังคงอยู่หน้า Settings
+                    Get.closeAllSnackbars();
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Get.snackbar('ออกจากระบบ', 'คุณได้ออกจากระบบแล้ว');
+                    });
                   }
                 },
               );

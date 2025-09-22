@@ -3,13 +3,24 @@ import 'package:mobile_app/presentation/controllers/auth_controller.dart';
 
 class SigninController extends GetxController {
   final RxBool _isSigningIn = false.obs;
+  final RxBool _hasAcceptedPdpa = false.obs;
   String? _errorMessage;
 
   bool get isSigningIn => _isSigningIn.value;
+  bool get hasAcceptedPdpa => _hasAcceptedPdpa.value;
   String? get errorMessage => _errorMessage;
+
+  void setPdpaAccepted(bool accepted) {
+    _hasAcceptedPdpa.value = accepted;
+  }
 
   Future<void> signInWithGoogle() async {
     try {
+      if (!hasAcceptedPdpa) {
+        _errorMessage = 'กรุณายอมรับเงื่อนไขการคุ้มครองข้อมูลส่วนบุคคล (PDPA) ก่อนเข้าสู่ระบบ';
+        Get.snackbar('ต้องยอมรับ PDPA', _errorMessage!);
+        return;
+      }
       _isSigningIn.value = true;
       _errorMessage = null;
       // TODO: Integrate actual Google Sign-In SDK / Firebase Auth here

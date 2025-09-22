@@ -28,12 +28,12 @@ class RootPage extends StatelessWidget {
           extendBodyBehindAppBar: true,
         body: Obx(() => IndexedStack(
           index: controller.currentIndex,
-          children: const [
-            HomePage(),
-            ProductsPage(),
-            SearchPage(),
-            FavoritesPage(),
-            ProfilePage(),
+          children: [
+            const HomePage(),
+            const ProductsPage(),
+            const SearchPage(),
+            const FavoritesPage(),
+            const ProfilePage(),
           ],
         )),
         bottomNavigationBar: Obx(() => GlassBottomNav(

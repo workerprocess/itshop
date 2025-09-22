@@ -19,7 +19,7 @@ class RootBinding extends Bindings {
     // Initialize all page controllers for the root page immediately
     Get.put<HomeController>(HomeController());
     Get.put<ProductsController>(ProductsController());
-    Get.put<ProductSearchController>(ProductSearchController());
+    Get.put<ProductSearchController>(ProductSearchController(), permanent: true);
     Get.put<FavoritesController>(FavoritesController());
     Get.put<ProfileController>(ProfileController());
   }
