@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/home_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_card.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -57,42 +59,158 @@ class HomePage extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Welcome Section
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Get.theme.primaryColor, Get.theme.primaryColor.withOpacity(0.8)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+
+                  // Membership / Rewards (Glass)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    child: const Text(
+                      'สมาชิก/รีวอร์ด',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        const Icon(
-                          Icons.computer,
-                          size: 60,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Welcome to IT Shop',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Builder(
+                      builder: (context) {
+                        final glass = Theme.of(context).extension<GlassTheme>()!;
+                        // ตัวอย่างข้อมูลชั่วคราว
+                        const int points = 120;
+                        const int nextTierPoints = 200;
+                        final double progress = points / nextTierPoints;
+                        return GlassCard(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.emoji_events, color: glass.borderColor),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    'ระดับ: Bronze',
+                                    style: TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    '$points/$nextTierPoints คะแนน',
+                                    style: TextStyle(color: glass.borderColor),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: LinearProgressIndicator(
+                                  value: progress.clamp(0.0, 1.0),
+                                  minHeight: 8,
+                                  backgroundColor: glass.borderColor.withOpacity(0.15),
+                                  valueColor: AlwaysStoppedAnimation<Color>(glass.borderColor),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Icon(Icons.card_giftcard, size: 18, color: glass.borderColor.withOpacity(0.9)),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    'แลกคูปองพิเศษได้เมื่อเป็น Silver',
+                                    style: TextStyle(color: glass.borderColor.withOpacity(0.9)),
+                                  ),
+                                  const Spacer(),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text('แลกรีวอร์ด'),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Your one-stop shop for IT products',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ],
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Continue from last usage (Glass)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    child: const Text(
+                      'ต่อเนื่องจากการใช้งานล่าสุด',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: GlassCard(
+                      padding: const EdgeInsets.all(12),
+                      child: Builder(
+                        builder: (context) {
+                          final items = controller.recommendedProducts.take(2).toList();
+                          if (items.isEmpty) {
+                            return Row(
+                              children: const [
+                                Icon(Icons.history, color: Colors.grey),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'ยังไม่มีรายการล่าสุด ลองดูสินค้าแนะนำก่อน',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                          return Row(
+                            children: [
+                              for (var i = 0; i < items.length; i++) ...[
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => Get.toNamed('/product-detail', arguments: items[i]),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        AspectRatio(
+                                          aspectRatio: 1.7,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(10),
+                                            child: Image.network(
+                                              items[i].images.isNotEmpty ? items[i].images.first : '',
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, _, __) => const ColoredBox(
+                                                color: Colors.black12,
+                                                child: Center(child: Icon(Icons.image_not_supported)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          items[i].name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          items[i].category,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                if (i == 0) const SizedBox(width: 12),
+                              ]
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                   

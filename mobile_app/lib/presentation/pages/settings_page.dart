@@ -34,25 +34,25 @@ class SettingsPage extends GetView<ProfileController> {
             children: [
               // Theme Settings
               _buildSectionTitle('การแสดงผล'),
-              _buildThemeSettings(controller),
+              _buildThemeSettings(controller, glass),
               
               const SizedBox(height: 24),
               
               // App Settings
               _buildSectionTitle('การตั้งค่าแอป'),
-              _buildAppSettings(),
+              _buildAppSettings(glass),
               
               const SizedBox(height: 24),
               
               // Account Settings
               _buildSectionTitle('บัญชีผู้ใช้'),
-              _buildAccountSettings(),
+              _buildAccountSettings(glass),
               
               const SizedBox(height: 24),
               
               // About
               _buildSectionTitle('เกี่ยวกับ'),
-              _buildAboutSection(),
+              _buildAboutSection(glass),
             ],
         
           ),
@@ -77,7 +77,7 @@ class SettingsPage extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildThemeSettings(ProfileController controller) {
+  Widget _buildThemeSettings(ProfileController controller, GlassTheme glass) {
     return GlassCard(
       child: Column(
         children: [
@@ -93,7 +93,7 @@ class SettingsPage extends GetView<ProfileController> {
               onChanged: (value) => controller.toggleTheme(),
             ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.palette, color: Colors.purple),
             title: const Text('สีหลัก'),
@@ -108,7 +108,7 @@ class SettingsPage extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildAppSettings() {
+  Widget _buildAppSettings(GlassTheme glass) {
     return GlassCard(
       child: Column(
         children: [
@@ -123,7 +123,7 @@ class SettingsPage extends GetView<ProfileController> {
               },
             ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.language, color: Colors.green),
             title: const Text('ภาษา'),
@@ -133,7 +133,7 @@ class SettingsPage extends GetView<ProfileController> {
               Get.snackbar('ภาษา', 'ฟีเจอร์นี้จะมาในเวอร์ชันถัดไป');
             },
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.storage, color: Colors.orange),
             title: const Text('การจัดเก็บข้อมูล'),
@@ -148,7 +148,7 @@ class SettingsPage extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildAccountSettings() {
+  Widget _buildAccountSettings(GlassTheme glass) {
     return GlassCard(
       child: Column(
         children: [
@@ -161,7 +161,7 @@ class SettingsPage extends GetView<ProfileController> {
               Get.snackbar('ข้อมูลส่วนตัว', 'กำลังเปิดหน้าแก้ไขข้อมูล');
             },
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.security, color: Colors.red),
             title: const Text('ความปลอดภัย'),
@@ -171,7 +171,7 @@ class SettingsPage extends GetView<ProfileController> {
               Get.snackbar('ความปลอดภัย', 'กำลังเปิดหน้าการตั้งค่าความปลอดภัย');
             },
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.privacy_tip, color: Colors.purple),
             title: const Text('ความเป็นส่วนตัว'),
@@ -186,7 +186,7 @@ class SettingsPage extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildAboutSection() {
+  Widget _buildAboutSection(GlassTheme glass) {
     return GlassCard(
       child: Column(
         children: [
@@ -199,7 +199,7 @@ class SettingsPage extends GetView<ProfileController> {
               _showAboutDialog();
             },
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.help, color: Colors.green),
             title: const Text('ช่วยเหลือ'),
@@ -209,7 +209,7 @@ class SettingsPage extends GetView<ProfileController> {
               Get.snackbar('ช่วยเหลือ', 'กำลังเปิดหน้าช่วยเหลือ');
             },
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.feedback, color: Colors.orange),
             title: const Text('ส่งข้อเสนอแนะ'),
@@ -219,7 +219,7 @@ class SettingsPage extends GetView<ProfileController> {
               Get.snackbar('ส่งข้อเสนอแนะ', 'กำลังเปิดหน้าส่งข้อเสนอแนะ');
             },
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: glass.borderColor),
           ListTile(
             leading: const Icon(Icons.star, color: Colors.amber),
             title: const Text('ให้คะแนนแอป'),
