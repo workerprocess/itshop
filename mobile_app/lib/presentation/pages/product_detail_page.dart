@@ -4,6 +4,7 @@ import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -242,7 +243,7 @@ class ProductDetailPage extends StatelessWidget {
   Widget _buildSpecifications() {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: GlassCard(
+      child: GlassContainer(
         padding: const EdgeInsets.all(16),
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,7 +289,7 @@ class ProductDetailPage extends StatelessWidget {
   Widget _buildReviewsSection() {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: GlassCard(
+      child: GlassContainer(
         padding: const EdgeInsets.all(16),
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
