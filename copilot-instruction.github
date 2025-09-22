@@ -1,0 +1,78 @@
+# Copilot Project Instructions (Flutter/GetX IT Shop)
+
+## Purpose
+Guide Copilot to suggest code consistent with this repository's architecture, style, and constraints.
+
+## Tech Context
+- Framework: Flutter (Dart 3+)
+- Architecture: Clean Architecture (presentation, domain, data)
+- State Management: GetX (controllers, bindings, routes)
+- Data: Local JSON under `mobile_app/assets/json/` and SharedPreferences
+- Theming: Light/Dark + glass theme in `mobile_app/lib/core/themes/`
+
+## Repository Layout (relevant)
+- `mobile_app/lib/core/` constants, errors, network, themes, utils
+- `mobile_app/lib/data/` datasources (local/remote), models, repositories impl
+- `mobile_app/lib/domain/` entities, repositories, usecases
+- `mobile_app/lib/presentation/` bindings, controllers, pages, widgets
+- `mobile_app/lib/routes/` app_routes.dart, app_pages.dart
+- `mobile_app/assets/json/` categories.json, products.json
+- `specs/001-mobile-application-it/` spec.md, plan.md, quickstart.md, data-model.md
+- `spec/` PRD-business.md, TECH-design.md
+
+## Coding Guidelines
+1. Prefer clarity over cleverness; write readable, multi-line code.
+2. Follow GetX patterns:
+   - Controller per screen/feature under `presentation/controllers/*`
+   - Bindings under `presentation/bindings/*`
+   - Register routes in `routes/app_pages.dart`
+3. Keep Clean Architecture boundaries:
+   - Presentation → usecases (domain) → repositories (domain) → impl (data) → datasources
+   - No UI directly calls datasources or Dio.
+4. Theme support must work in Light/Dark; use shared theme utils in `core/themes/*`.
+5. Persist theme/favorites via repository abstractions; use SharedPreferences in data layer only.
+6. Strings for empty states (Thai):
+   - Empty category: "ยังไม่มีข้อมูลที่เกี่ยวข้อง"
+   - Empty search: "ไม่พบสินค้าที่ตรงกับการค้นหาของคุณ"
+   - Empty favorites: "ยังไม่มีสินค้าที่บันทึกไว้"
+7. UI
+   - Maintain modern, vibrant look; prefer components consistent with glass theme.
+   - Keep touch targets ≥ 44px.
+8. Testing
+   - Provide testable code; avoid static singletons where unnecessary.
+   - Keep business logic out of widgets; put in controllers/usecases.
+
+## Do
+- Place new models in `mobile_app/lib/data/models/` and entities in `mobile_app/lib/domain/entities/`.
+- Add new routes to `mobile_app/lib/routes/app_routes.dart` and `app_pages.dart`.
+- Suggest repository interfaces first, then implementations.
+- Use dependency injection via GetX bindings.
+- Read from `assets/json/` for mock data where suitable.
+
+## Don't
+- Don't hardcode navigation strings; use `AppRoutes`.
+- Don't call HTTP/Dio in widgets or controllers; use repositories/usecases.
+- Don't store raw preferences in controllers; go through repositories.
+- Don't introduce new state managers; keep using GetX.
+- Don't mix technical details into business docs under `spec/PRD-business.md`.
+
+## Commit/Files
+- Match existing Dart style and folder structure.
+- Keep changes minimal and localized; avoid mass refactors in a single edit.
+
+## Examples
+- Adding a new page:
+  - Create `presentation/pages/new_feature_page.dart`
+  - Create `presentation/controllers/new_feature_controller.dart`
+  - Create `presentation/bindings/new_feature_binding.dart`
+  - Register route in `routes/app_pages.dart`
+
+- Adding a use case:
+  - `domain/usecases/do_thing.dart` depends on `domain/repositories/some_repository.dart`
+  - Implement in data layer and wire via binding
+
+## Performance Targets (hint)
+- Startup ≤ 2s, smooth 60fps scrolling, responsive on common phone sizes.
+
+## Language
+- Primary UI/content in Thai. Code identifiers in English.

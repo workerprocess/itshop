@@ -20,42 +20,51 @@ Building a Flutter mobile application following Clean Architecture principles wi
 
 ## Project Structure Standards
 
-### Directory Organization
+### Directory Organization (repository-specific)
 ```
-lib/
-├── core/                    # Core utilities and shared components
-│   ├── constants/          # App constants and enums
-│   ├── errors/             # Error handling classes
-│   ├── network/            # API client and network utilities
-│   ├── themes/             # Theme configuration
-│   └── utils/              # Utility functions and helpers
-├── data/                   # Data layer (Clean Architecture)
-│   ├── datasources/        # Data source implementations
-│   │   ├── local/          # Local data sources (SharedPreferences, SQLite)
-│   │   └── remote/         # Remote data sources (API calls)
-│   ├── models/             # Data models with JSON serialization
-│   └── repositories/       # Repository implementations
-├── domain/                 # Domain layer (Clean Architecture)
-│   ├── entities/           # Business entities
-│   ├── repositories/       # Repository interfaces
-│   └── usecases/           # Business logic use cases
-├── presentation/           # Presentation layer (Clean Architecture)
-│   ├── bindings/           # GetX dependency injection bindings
-│   ├── controllers/        # GetX controllers for state management
-│   ├── pages/              # Screen widgets
-│   └── widgets/            # Reusable UI components
-└── routes/                 # GetX routing configuration
-
-assets/
-├── images/                 # Image assets
-├── json/                   # Mock data files
-└── fonts/                  # Custom fonts
-
-test/
-├── unit/                   # Unit tests
-├── integration/            # Integration tests
-└── contract/               # API contract tests
+mobile_app/
+├── lib/
+│   ├── core/                    # Core utilities and shared components
+│   │   ├── constants/           # App constants and enums
+│   │   ├── errors/              # Error handling classes
+│   │   ├── network/             # API client and network utilities
+│   │   ├── themes/              # Theme configuration (incl. glass theme)
+│   │   └── utils/               # Utility functions and helpers
+│   ├── data/                    # Data layer (Clean Architecture)
+│   │   ├── datasources/         # Data source implementations
+│   │   │   ├── local/           # Local data sources (SharedPreferences)
+│   │   │   └── remote/          # Remote data sources (API calls)
+│   │   ├── models/              # Data models with JSON serialization
+│   │   └── repositories/        # Repository implementations
+│   ├── domain/                  # Domain layer (Clean Architecture)
+│   │   ├── entities/            # Business entities
+│   │   ├── repositories/        # Repository interfaces
+│   │   └── usecases/            # Business logic use cases
+│   ├── presentation/            # Presentation layer (Clean Architecture)
+│   │   ├── bindings/            # GetX dependency injection bindings
+│   │   ├── controllers/         # GetX controllers for state management
+│   │   ├── pages/               # Screen widgets
+│   │   └── widgets/             # Reusable UI components
+│   └── routes/                  # GetX routing configuration
+├── assets/
+│   ├── images/                  # Image assets
+│   ├── json/                    # Mock data files (products.json, categories.json)
+│   └── fonts/                   # Custom fonts
+└── test/
+    ├── unit/                    # Unit tests
+    ├── integration/             # Integration tests
+    └── contract/                # API contract tests
 ```
+
+### Project-specific Conventions
+- Use `AppRoutes` and `AppPages` under `mobile_app/lib/routes/` for all navigation. Do not hardcode route strings.
+- Persist theme and favorites via repositories; controllers should not access SharedPreferences directly.
+- Do not perform HTTP/Dio calls in widgets or controllers; use domain use cases and data repositories.
+- Primary UI language is Thai; keep copy consistent and friendly. Code identifiers remain in English.
+- Empty state strings (Thai):
+  - หมวดว่าง: "ยังไม่มีข้อมูลที่เกี่ยวข้อง"
+  - ค้นหาไม่พบ: "ไม่พบสินค้าที่ตรงกับการค้นหาของคุณ"
+  - รายการโปรดว่าง: "ยังไม่มีสินค้าที่บันทึกไว้"
 
 ## Code Organization Patterns
 
@@ -642,6 +651,9 @@ class ThemeController extends GetxController {
 }
 ```
 
+### Glass Theme
+- The project includes a glassmorphism-inspired theme in `mobile_app/lib/core/themes/glass_theme.dart`. New widgets should respect translucency, blur, and vibrant color accents defined there, and work in both Light and Dark modes.
+
 ## Testing Strategy
 
 ### Unit Testing
@@ -691,6 +703,16 @@ void main() {
   });
 }
 ```
+
+## Performance Targets
+- App startup ≤ 2 seconds on mid-tier devices.
+- Smooth 60fps scrolling on product lists and home carousels.
+- Responsive layouts for common phone sizes (e.g., 360x640, 375x667, 414x896, 428x926).
+
+## Documentation & Tooling References
+- Business PRD: `spec/PRD-business.md`
+- Technical Design: `spec/TECH-design.md`
+- Copilot instructions: `copilot-instruction.github`
 
 ## Error Handling
 
