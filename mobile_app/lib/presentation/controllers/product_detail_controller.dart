@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/domain/usecases/product_usecases.dart';
+import 'package:mobile_app/domain/usecases/user_activity_usecases.dart';
 
 class ProductDetailController extends GetxController {
   final RxBool _isLoading = false.obs;
@@ -17,6 +18,7 @@ class ProductDetailController extends GetxController {
   void onInit() {
     super.onInit();
     product = Get.arguments as Product;
+    _recordView();
     loadRelatedProducts();
   }
 
@@ -37,6 +39,15 @@ class ProductDetailController extends GetxController {
       print('Error loading related products: $e');
     } finally {
       _isLoading.value = false;
+    }
+  }
+
+  Future<void> _recordView() async {
+    try {
+      final recordUseCase = Get.find<RecordProductViewedUseCase>();
+      await recordUseCase.call(product.id);
+    } catch (e) {
+      // ignore errors for analytics
     }
   }
 

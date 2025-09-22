@@ -36,5 +36,6 @@ class AppBindings extends Bindings {
     Get.put(GetCategoryByIdUseCase(Get.find()));
     Get.put(GetMembershipStatusUseCase(Get.find()));
     Get.put(GetRecentViewedProductsUseCase(Get.find()));
+    Get.put(RecordProductViewedUseCase(Get.find()));
   }
 }

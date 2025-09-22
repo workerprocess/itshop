@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -56,9 +57,6 @@ class ProductDetailPage extends StatelessWidget {
             
             // Reviews Section
             _buildReviewsSection(),
-            
-            // Related Products
-            _buildRelatedProducts(),
           ],
           ),
         ),
@@ -242,15 +240,11 @@ class ProductDetailPage extends StatelessWidget {
   }
 
   Widget _buildSpecifications() {
-    return Container(
-      margin: const EdgeInsets.all(16),
+    return Padding(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: Column(
+      child: GlassCard(
+        padding: const EdgeInsets.all(16),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
@@ -279,9 +273,7 @@ class ProductDetailPage extends StatelessWidget {
                   Expanded(
                     child: Text(
                       entry.value,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
+                      style: const TextStyle(color: Colors.white70),
                     ),
                   ),
                 ],
@@ -290,19 +282,15 @@ class ProductDetailPage extends StatelessWidget {
           }).toList(),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildReviewsSection() {
-    return Container(
-      margin: const EdgeInsets.all(16),
+    return Padding(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: Column(
+      child: GlassCard(
+        padding: const EdgeInsets.all(16),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
@@ -323,17 +311,12 @@ class ProductDetailPage extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 '${product.rating} จาก 5.0',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const Spacer(),
               Text(
                 '${product.reviewCount} รีวิว',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
+                style: const TextStyle(color: Colors.white70),
               ),
             ],
           ),
@@ -346,47 +329,10 @@ class ProductDetailPage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
-  Widget _buildRelatedProducts() {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'สินค้าที่เกี่ยวข้อง',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 5, // Mock count
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 150,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text('Related Product ${index + 1}'),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Removed related products section as per request
 
   Widget _buildBottomBar() {
     return Container(

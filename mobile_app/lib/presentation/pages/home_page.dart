@@ -150,7 +150,7 @@ class HomePage extends GetView<HomeController> {
                         builder: (context) {
                           final items = controller.recentViewed.isNotEmpty
                               ? controller.recentViewed
-                              : controller.recommendedProducts.take(2).toList();
+                              : controller.recommendedProducts.take(4).toList();
                           if (items.isEmpty) {
                             return Row(
                               children: const [
@@ -165,21 +165,27 @@ class HomePage extends GetView<HomeController> {
                               ],
                             );
                           }
-                          return Row(
-                            children: [
-                              for (var i = 0; i < items.length; i++) ...[
-                                Expanded(
+                          return SizedBox(
+                            height: 220,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: items.length,
+                              separatorBuilder: (_, __) => const SizedBox(width: 12),
+                              itemBuilder: (context, i) {
+                                final item = items[i];
+                                return SizedBox(
+                                  width: 150,
                                   child: InkWell(
-                                    onTap: () => Get.toNamed('/product-detail', arguments: items[i]),
+                                    onTap: () => Get.toNamed('/product-detail', arguments: item),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         AspectRatio(
-                                          aspectRatio: 1.7,
+                                          aspectRatio: 1,
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(10),
                                             child: Image.network(
-                                              items[i].images.isNotEmpty ? items[i].images.first : '',
+                                              item.images.isNotEmpty ? item.images.first : '',
                                               fit: BoxFit.cover,
                                               errorBuilder: (context, _, __) => const ColoredBox(
                                                 color: Colors.black12,
@@ -190,13 +196,13 @@ class HomePage extends GetView<HomeController> {
                                         ),
                                         const SizedBox(height: 8),
                                         Text(
-                                          items[i].name,
+                                          item.name,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(fontWeight: FontWeight.w600),
                                         ),
                                         Text(
-                                          items[i].category,
+                                          item.category,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -204,10 +210,9 @@ class HomePage extends GetView<HomeController> {
                                       ],
                                     ),
                                   ),
-                                ),
-                                if (i == 0) const SizedBox(width: 12),
-                              ]
-                            ],
+                                );
+                              },
+                            ),
                           );
                         },
                       ),

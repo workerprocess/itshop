@@ -41,9 +41,9 @@ class HomeController extends GetxController {
       final membershipUseCase = Get.find<GetMembershipStatusUseCase>();
       _membershipStatus.value = await membershipUseCase.call();
       
-      // Load recent viewed (mock)
+      // Load recent viewed
       final recentUseCase = Get.find<GetRecentViewedProductsUseCase>();
-      _recentViewed.value = await recentUseCase.call(limit: 2);
+      _recentViewed.value = await recentUseCase.call(limit: 4);
       
     } catch (e) {
       // Handle error

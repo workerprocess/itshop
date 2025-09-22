@@ -22,4 +22,14 @@ class GetRecentViewedProductsUseCase {
   }
 }
 
+class RecordProductViewedUseCase {
+  final UserActivityRepository _repository;
+
+  RecordProductViewedUseCase(this._repository);
+
+  Future<void> call(String productId) async {
+    return await _repository.recordProductViewed(productId);
+  }
+}
+
 
