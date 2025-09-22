@@ -37,6 +37,9 @@ dev_dependencies:
   
   # Testing
   mockito: ^5.5.1
+  
+  # Splash Screen Generator
+  flutter_native_splash: ^2.4.1
 
 flutter:
   uses-material-design: true
@@ -45,3 +48,18 @@ flutter:
     - assets/images/
     - assets/json/
     - assets/fonts/
+
+# Native Splash Screen Configuration
+flutter_native_splash:
+  color: "#1976D2" # Primary blue (matches theme seed)
+  color_dark: "#0D47A1"
+  image: assets/images/logo.png # โลโก้ (โหมดสว่าง)
+  image_dark: assets/images/logo.png 
+  android: true
+  ios: true
+  web: false
+  android_12:
+    image: assets/images/logo_android12.png
+    image_dark: assets/images/logo_android12.png
+    color: "#1976D2"
+    color_dark: "#0D47A1"
