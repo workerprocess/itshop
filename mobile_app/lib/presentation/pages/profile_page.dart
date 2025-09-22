@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/profile_controller.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ProfileController>();
+    // เรียกใช้ controller.onInit() เมื่อ widget ถูกสร้าง
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!controller.initialized) {
+        controller.onInit();
+      }
+    });
+    final glass = Theme.of(context).extension<GlassTheme>()!;
     
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -27,51 +35,51 @@ class ProfilePage extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
             child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.person_outline,
-                  size: 80,
-                  color: Colors.grey,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'กำลังโหลดข้อมูลโปรไฟล์',
-                  style: TextStyle(
-                    fontSize: 18,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.person_outline,
+                    size: 80,
                     color: Colors.grey,
                   ),
+                  SizedBox(height: 16),
+                  Text(
+                    'กำลังโหลดข้อมูลโปรไฟล์',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          ),
-        );
-      }
-      
-      return Padding(
+            ),
+          );
+        }
+        
+        return Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               // Profile Header
-              _buildProfileHeader(),
+              _buildProfileHeader(context),
               
               const SizedBox(height: 24),
               
               // Profile Menu Items
-              _buildMenuItems(),
+              _buildMenuItems(context),
               
               const SizedBox(height: 24),
               
-              // Theme Toggle
-              _buildThemeToggle(controller),
+              // Theme Toggle - ใช้ Obx สำหรับ theme changes
+              Obx(() => _buildThemeToggle(context, controller)),
               
               const SizedBox(height: 24),
               
               // App Info
-              _buildAppInfo(),
+              _buildAppInfo(context),
             ],
           ),
         ),
@@ -80,14 +88,12 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader() {
-    return Container(
+  Widget _buildProfileHeader(BuildContext context) {
+    final glass = Theme.of(context).extension<GlassTheme>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return GlassCard(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.blue[50],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue[200]!),
-      ),
       child: Column(
         children: [
           // Profile Avatar
@@ -104,11 +110,12 @@ class ProfilePage extends StatelessWidget {
           const SizedBox(height: 16),
           
           // User Name
-          const Text(
-            'ผู้ใช้ IT Shop',
+          Text(
+            controller.userName,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              color: isDark ? Colors.white.withOpacity(0.9) : Colors.black87,
             ),
           ),
           
@@ -116,10 +123,10 @@ class ProfilePage extends StatelessWidget {
           
           // User Email
           Text(
-            'user@itshop.com',
+            controller.userEmail,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600],
+              color: isDark ? Colors.white.withOpacity(0.7) : Colors.grey[600],
             ),
           ),
           
@@ -129,9 +136,9 @@ class ProfilePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildStatItem('รายการโปรด', '12'),
-              _buildStatItem('คำสั่งซื้อ', '5'),
-              _buildStatItem('รีวิว', '8'),
+              _buildStatItem(context, 'รายการโปรด', controller.favoriteCount.toString()),
+              _buildStatItem(context, 'คำสั่งซื้อ', controller.orderCount.toString()),
+              _buildStatItem(context, 'รีวิว', controller.reviewCount.toString()),
             ],
           ),
         ],
@@ -139,7 +146,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(String label, String value) {
+  Widget _buildStatItem(BuildContext context, String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       children: [
         Text(
@@ -155,17 +163,18 @@ class ProfilePage extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey[600],
+            color: isDark ? Colors.white.withOpacity(0.7) : Colors.grey[600],
           ),
         ),
       ],
     );
   }
 
-  Widget _buildMenuItems() {
+  Widget _buildMenuItems(BuildContext context) {
     return Column(
       children: [
         _buildMenuItem(
+          context: context,
           icon: Icons.shopping_bag,
           title: 'คำสั่งซื้อของฉัน',
           subtitle: 'ดูประวัติการสั่งซื้อ',
@@ -174,12 +183,14 @@ class ProfilePage extends StatelessWidget {
           },
         ),
         _buildMenuItem(
+          context: context,
           icon: Icons.favorite,
           title: 'รายการโปรด',
           subtitle: 'สินค้าที่คุณชอบ',
           onTap: () => Get.toNamed('/favorites'),
         ),
         _buildMenuItem(
+          context: context,
           icon: Icons.star,
           title: 'รีวิวของฉัน',
           subtitle: 'รีวิวที่คุณเขียน',
@@ -188,6 +199,7 @@ class ProfilePage extends StatelessWidget {
           },
         ),
         _buildMenuItem(
+          context: context,
           icon: Icons.notifications,
           title: 'การแจ้งเตือน',
           subtitle: 'จัดการการแจ้งเตือน',
@@ -196,6 +208,7 @@ class ProfilePage extends StatelessWidget {
           },
         ),
         _buildMenuItem(
+          context: context,
           icon: Icons.help,
           title: 'ช่วยเหลือ',
           subtitle: 'คำถามที่พบบ่อย',
@@ -208,32 +221,60 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildMenuItem({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
   }) {
-    return Card(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return GlassCard(
       margin: const EdgeInsets.only(bottom: 8),
+      onTap: onTap,
       child: ListTile(
         leading: Icon(icon, color: Colors.blue),
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: onTap,
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isDark ? Colors.white.withOpacity(0.9) : Colors.black87,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            color: isDark ? Colors.white.withOpacity(0.7) : Colors.grey[600],
+          ),
+        ),
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+          size: 16,
+          color: isDark ? Colors.white.withOpacity(0.7) : Colors.grey[600],
+        ),
       ),
     );
   }
 
-  Widget _buildThemeToggle(ProfileController controller) {
-    return Card(
+  Widget _buildThemeToggle(BuildContext context, ProfileController controller) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return GlassCard(
       child: ListTile(
         leading: Icon(
           controller.isDarkMode ? Icons.dark_mode : Icons.light_mode,
           color: Colors.orange,
         ),
-        title: const Text('ธีม'),
-        subtitle: Text(controller.isDarkMode ? 'โหมดมืด' : 'โหมดสว่าง'),
+        title: Text(
+          'ธีม',
+          style: TextStyle(
+            color: isDark ? Colors.white.withOpacity(0.9) : Colors.black87,
+          ),
+        ),
+        subtitle: Text(
+          controller.isDarkMode ? 'โหมดมืด' : 'โหมดสว่าง',
+          style: TextStyle(
+            color: isDark ? Colors.white.withOpacity(0.7) : Colors.grey[600],
+          ),
+        ),
         trailing: Switch(
           value: controller.isDarkMode,
           onChanged: (value) => controller.toggleTheme(),
@@ -242,36 +283,37 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAppInfo() {
-    return Container(
+  Widget _buildAppInfo(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return GlassCard(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-      ),
       child: Column(
         children: [
-          const Text(
-            'IT Shop',
+          // App Name
+          Text(
+            controller.appName,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              color: isDark ? Colors.white.withOpacity(0.9) : Colors.black87,
             ),
           ),
           const SizedBox(height: 8),
+          // App Version
           Text(
-            'เวอร์ชัน 1.0.0',
+            'เวอร์ชัน ${controller.appVersion}',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600],
+              color: isDark ? Colors.white.withOpacity(0.7) : Colors.grey[600],
             ),
           ),
           const SizedBox(height: 8),
+          // App Description
           Text(
-            'แอปพลิเคชันสำหรับการขายสินค้า IT',
+            controller.appDescription,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey[500],
+              color: isDark ? Colors.white.withOpacity(0.6) : Colors.grey[500],
             ),
             textAlign: TextAlign.center,
           ),

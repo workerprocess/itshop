@@ -6,12 +6,11 @@ import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends GetView<FavoritesController> {
   const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<FavoritesController>();
     
     return Scaffold(
       backgroundColor: Colors.transparent,

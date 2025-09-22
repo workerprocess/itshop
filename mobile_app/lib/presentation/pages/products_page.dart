@@ -4,17 +4,22 @@ import 'package:mobile_app/presentation/controllers/products_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 
-class ProductsPage extends StatelessWidget {
+class ProductsPage extends GetView<ProductsController> {
   const ProductsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ProductsController>();
+    final glass = Theme.of(context).extension<GlassTheme>()!;
     
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: glass.backgroundGradient,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
       appBar: GlassAppBar(
         title: 'Products',
         actions: [
@@ -37,59 +42,59 @@ class ProductsPage extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
             child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.inventory_outlined,
-                  size: 80,
-                  color: Colors.grey,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'กำลังโหลดสินค้า...',
-                  style: TextStyle(
-                    fontSize: 18,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.inventory_outlined,
+                    size: 80,
                     color: Colors.grey,
                   ),
+                  SizedBox(height: 16),
+                  Text(
+                    'กำลังโหลดสินค้า...',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          ),
-        );
-      }
-      
-      if (controller.products.isEmpty) {
-        return Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
-          child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.inventory_2_outlined,
-                  size: 80,
-                  color: Colors.grey,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'ยังไม่มีสินค้า',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'กำลังเตรียมสินค้าให้คุณ',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
             ),
-          ),
+          );
+        }
+        
+        if (controller.products.isEmpty) {
+          return Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+            child: const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.inventory_2_outlined,
+                    size: 80,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'ยังไม่มีสินค้า',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'กำลังเตรียมสินค้าให้คุณ',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
         
@@ -108,6 +113,7 @@ class ProductsPage extends StatelessWidget {
               ),
         );
       }),
+      ),
     );
   }
 }

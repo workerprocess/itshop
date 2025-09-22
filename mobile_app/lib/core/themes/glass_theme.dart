@@ -8,6 +8,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
   final Gradient gradient;
   final Color borderColor;
   final Color tint;
+  final Gradient backgroundGradient; // เพิ่ม background gradient
 
   const GlassTheme({
     required this.blur,
@@ -17,6 +18,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
     required this.gradient,
     required this.borderColor,
     required this.tint,
+    required this.backgroundGradient, // เพิ่ม background gradient
   });
 
   @override
@@ -28,6 +30,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
     Gradient? gradient,
     Color? borderColor,
     Color? tint,
+    Gradient? backgroundGradient,
   }) {
     return GlassTheme(
       blur: blur ?? this.blur,
@@ -37,6 +40,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
       gradient: gradient ?? this.gradient,
       borderColor: borderColor ?? this.borderColor,
       tint: tint ?? this.tint,
+      backgroundGradient: backgroundGradient ?? this.backgroundGradient,
     );
   }
 
@@ -51,6 +55,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
       gradient: _lerpGradient(gradient, other.gradient, t),
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
       tint: Color.lerp(tint, other.tint, t)!,
+      backgroundGradient: _lerpGradient(backgroundGradient, other.backgroundGradient, t),
     );
   }
 
@@ -68,6 +73,32 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
   }
 
 
+  // สร้าง gradient สำหรับ Light Theme
+  static const Gradient _lightBackgroundGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFF6B6B), // สีแดงสด
+      Color(0xFF4ECDC4), // สีเขียวมิ้น
+      Color(0xFF45B7D1), // สีฟ้าสด
+      Color(0xFF96CEB4), // สีเขียวอ่อน
+    ],
+    stops: [0.0, 0.3, 0.7, 1.0],
+  );
+
+  // สร้าง gradient สำหรับ Dark Theme
+  static const Gradient _darkBackgroundGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF2D3748), // สีเทาเข้ม
+      Color(0xFF4A5568), // สีเทาปานกลาง
+      Color(0xFF2B6CB0), // สีน้ำเงินเข้ม
+      Color(0xFF1A365D), // สีน้ำเงินเข้มมาก
+    ],
+    stops: [0.0, 0.3, 0.7, 1.0],
+  );
+
   static GlassTheme get _lightGlass => GlassTheme(
         blur: 20,
         opacity: 0.20,
@@ -80,6 +111,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
         ),
         borderColor: Colors.white.withOpacity(0.28),
         tint: const Color(0x55FFFFFF),
+        backgroundGradient: _lightBackgroundGradient, // ใช้ Light Theme gradient
       );
 
   static GlassTheme get _darkGlass => GlassTheme(
@@ -94,6 +126,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
         ),
         borderColor: Colors.white.withOpacity(0.22),
         tint: const Color(0x33FFFFFF),
+        backgroundGradient: _darkBackgroundGradient, // ใช้ Dark Theme gradient
       );
 
 

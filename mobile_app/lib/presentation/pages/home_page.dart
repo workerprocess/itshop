@@ -4,13 +4,12 @@ import 'package:mobile_app/presentation/controllers/home_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_card.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      builder: (controller) => Scaffold(
+    return Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         appBar: GlassAppBar(
@@ -46,10 +45,10 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            );
-          }
-          
-          return Padding(
+          );
+        }
+        
+        return Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
             child: RefreshIndicator(
             onRefresh: () => controller.refreshData(),
@@ -119,7 +118,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 300,
+                      height: 280,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -161,7 +160,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 300,
+                      height: 280,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -185,10 +184,8 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            ),
-          );
-        }),
-      ),
+        ));
+      }),
     );
   }
 }

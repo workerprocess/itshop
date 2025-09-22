@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
@@ -13,19 +14,10 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final glass = Theme.of(context).extension<GlassTheme>()!;
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFFF6B6B), // สีแดงสด
-            Color(0xFF4ECDC4), // สีเขียวมิ้น
-            Color(0xFF45B7D1), // สีฟ้าสด
-            Color(0xFF96CEB4), // สีเขียวอ่อน
-          ],
-          stops: [0.0, 0.3, 0.7, 1.0],
-        ),
+      decoration: BoxDecoration(
+        gradient: glass.backgroundGradient,
       ),
       child: Scaffold(
       backgroundColor: Colors.transparent,

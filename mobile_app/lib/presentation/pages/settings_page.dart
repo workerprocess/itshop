@@ -2,28 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/profile_controller.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends GetView<ProfileController> {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final glass = Theme.of(context).extension<GlassTheme>()!;
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFFF6B6B), // สีแดงสด
-            Color(0xFF4ECDC4), // สีเขียวมิ้น
-            Color(0xFF45B7D1), // สีฟ้าสด
-            Color(0xFF96CEB4), // สีเขียวอ่อน
-          ],
-          stops: [0.0, 0.3, 0.7, 1.0],
-        ),
+      decoration: BoxDecoration(
+        gradient: glass.backgroundGradient,
       ),
-      child: GetBuilder<ProfileController>(
-        builder: (controller) => Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         appBar: GlassAppBar(
@@ -62,12 +54,14 @@ class SettingsPage extends StatelessWidget {
               _buildSectionTitle('เกี่ยวกับ'),
               _buildAboutSection(),
             ],
-          ),
+        
           ),
         ),
         ),
       ),
     );
+  }
+  
   }
 
   Widget _buildSectionTitle(String title) {
@@ -84,7 +78,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _buildThemeSettings(ProfileController controller) {
-    return Card(
+    return GlassCard(
       child: Column(
         children: [
           ListTile(
@@ -115,7 +109,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _buildAppSettings() {
-    return Card(
+    return GlassCard(
       child: Column(
         children: [
           ListTile(
@@ -155,7 +149,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _buildAccountSettings() {
-    return Card(
+    return GlassCard(
       child: Column(
         children: [
           ListTile(
@@ -193,7 +187,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _buildAboutSection() {
-    return Card(
+    return GlassCard(
       child: Column(
         children: [
           ListTile(
@@ -269,4 +263,3 @@ class SettingsPage extends StatelessWidget {
       },
     );
   }
-}

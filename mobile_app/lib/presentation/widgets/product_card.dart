@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:mobile_app/domain/entities/product.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -17,13 +19,16 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 0,
+      color: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
+        splashColor: Colors.white.withOpacity(0.2),
+        highlightColor: Colors.white.withOpacity(0.1),
       child: Stack(
         children: [
           Column(
@@ -31,7 +36,7 @@ class ProductCard extends StatelessWidget {
             children: [
               // Product Image
               Expanded(
-                flex: 3,
+                flex:  2, // รูปภาพได้พื้นที่ 2 ส่วน
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -66,38 +71,61 @@ class ProductCard extends StatelessWidget {
               ),
               
               // Product Info
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
+              Flexible(  // ข้อมูลสินค้าได้พื้นที่ที่เหลือ
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(12),
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.2),
+                            Colors.white.withOpacity(0.1),
+                          ],
+                        ),
+                        border: Border(
+                          top: BorderSide(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Product Name
                       Text(
                         product.name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white.withOpacity(0.9),
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       
-                      const SizedBox(height: 2),
+                      // const SizedBox(height: 2),
                       
                       // Brand
                       Text(
                         product.brand,
                         style: TextStyle(
                           fontSize: 10,
-                          color: Colors.grey[600],
+                          color: Colors.white.withOpacity(0.7),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       
-                      const SizedBox(height: 4),
+                      // const SizedBox(height: 4),
                       
                       // Price and Rating
                       Row(
@@ -106,10 +134,10 @@ class ProductCard extends StatelessWidget {
                           Flexible(
                             child: Text(
                               '฿${product.price.toStringAsFixed(0)}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                                color: Colors.green[300],
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -125,9 +153,10 @@ class ProductCard extends StatelessWidget {
                               const SizedBox(width: 2),
                               Text(
                                 product.rating.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500,
+                                  color: Colors.white.withOpacity(0.9),
                                 ),
                               ),
                             ],
@@ -135,6 +164,8 @@ class ProductCard extends StatelessWidget {
                         ],
                       ),
                     ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -142,56 +173,56 @@ class ProductCard extends StatelessWidget {
           ),
           
           // Badges
-          if (product.isRecommended || product.isBestSeller)
-            Positioned(
-              top: 8,
-              right: 8,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (product.isRecommended)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Text(
-                        'แนะนำ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  if (product.isRecommended && product.isBestSeller)
-                    const SizedBox(width: 4),
-                  if (product.isBestSeller)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Text(
-                        'ขายดี',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+          // if (product.isRecommended || product.isBestSeller)
+          //   Positioned(
+          //     top: 8,
+          //     right: 8,
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         if (product.isRecommended)
+          //           Container(
+          //             padding: const EdgeInsets.symmetric(
+          //               horizontal: 6,
+          //               vertical: 2,
+          //             ),
+          //             decoration: BoxDecoration(
+          //               color: Colors.blue,
+          //               borderRadius: BorderRadius.circular(8),
+          //             ),
+          //             child: const Text(
+          //               'แนะนำ',
+          //               style: TextStyle(
+          //                 color: Colors.white,
+          //                 fontSize: 10,
+          //                 fontWeight: FontWeight.bold,
+          //               ),
+          //             ),
+          //           ),
+          //         if (product.isRecommended && product.isBestSeller)
+          //           const SizedBox(width: 4),
+          //         if (product.isBestSeller)
+          //           Container(
+          //             padding: const EdgeInsets.symmetric(
+          //               horizontal: 6,
+          //               vertical: 2,
+          //             ),
+          //             decoration: BoxDecoration(
+          //               color: Colors.red,
+          //               borderRadius: BorderRadius.circular(8),
+          //             ),
+          //             child: const Text(
+          //               'ขายดี',
+          //               style: TextStyle(
+          //                 color: Colors.white,
+          //                 fontSize: 10,
+          //                 fontWeight: FontWeight.bold,
+          //               ),
+          //             ),
+          //           ),
+          //       ],
+          //     ),
+          //   ),
         ],
       ),
       ),

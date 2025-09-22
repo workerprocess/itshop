@@ -7,13 +7,12 @@ import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends GetView<ProductSearchController> {
   const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     print('🔍 SearchPage: build() called');
-    final controller = Get.find<ProductSearchController>();
     
     return Scaffold(
         backgroundColor: Colors.transparent,
