@@ -132,9 +132,7 @@ class SigninPage extends GetView<SigninController> {
                                           ),
                                         ),
                                         TextButton(
-                                          onPressed: () {
-                                            // TODO: นำทางไปหน้าหรือลิงก์นโยบายความเป็นส่วนตัว
-                                          },
+                                          onPressed: () => Get.toNamed('/terms'),
                                           child: const Text('เปิด'),
                                         )
                                       ],
@@ -164,9 +162,7 @@ class SigninPage extends GetView<SigninController> {
                                           ),
                                         ),
                                         TextButton(
-                                          onPressed: () {
-                                            // TODO: Navigate to Privacy Policy
-                                          },
+                                          onPressed: () => Get.toNamed('/terms'),
                                           child: const Text('Open'),
                                         )
                                       ],

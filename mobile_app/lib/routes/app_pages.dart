@@ -17,6 +17,7 @@ import 'package:mobile_app/presentation/pages/profile_page.dart';
 import 'package:mobile_app/presentation/pages/signin_page.dart';
 import 'package:mobile_app/presentation/pages/settings_page.dart';
 import 'package:mobile_app/presentation/pages/product_detail_page.dart';
+import 'package:mobile_app/presentation/pages/terms_page.dart';
 import 'package:mobile_app/routes/app_routes.dart';
 
 class AppPages {
@@ -70,6 +71,10 @@ class AppPages {
       name: AppRoutes.productDetail,
       page: () => ProductDetailPage(product: Get.arguments),
       binding: ProductDetailBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.terms,
+      page: () => const TermAndUsePage(),
     ),
   ];
 }
