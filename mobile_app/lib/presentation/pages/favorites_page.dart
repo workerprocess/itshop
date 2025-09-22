@@ -5,6 +5,7 @@ import 'package:mobile_app/presentation/controllers/favorites_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
 
 class FavoritesPage extends GetView<FavoritesController> {
   const FavoritesPage({super.key});
@@ -78,9 +79,11 @@ class FavoritesPage extends GetView<FavoritesController> {
         child: Column(
           children: [
             // Favorites Count
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: Row(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: GlassContainer(
+                padding: const EdgeInsets.all(16),
+                child: Row(
                 children: [
                   Icon(
                     Icons.favorite,
@@ -102,6 +105,7 @@ class FavoritesPage extends GetView<FavoritesController> {
                     ),
                   ),
                 ],
+              ),
               ),
             ),
             

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:mobile_app/presentation/controllers/profile_controller.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_divider.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
 
 class SettingsPage extends GetView<ProfileController> {
@@ -78,7 +80,8 @@ class SettingsPage extends GetView<ProfileController> {
   }
 
   Widget _buildThemeSettings(ProfileController controller, GlassTheme glass) {
-    return GlassCard(
+    return GlassContainer(
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
         children: [
           ListTile(
@@ -109,7 +112,8 @@ class SettingsPage extends GetView<ProfileController> {
   }
 
   Widget _buildAppSettings(GlassTheme glass) {
-    return GlassCard(
+    return GlassContainer(
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
         children: [
           ListTile(
@@ -149,7 +153,8 @@ class SettingsPage extends GetView<ProfileController> {
   }
 
   Widget _buildAccountSettings(GlassTheme glass) {
-    return GlassCard(
+    return GlassContainer(
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
         children: [
           ListTile(
@@ -187,7 +192,8 @@ class SettingsPage extends GetView<ProfileController> {
   }
 
   Widget _buildAboutSection(GlassTheme glass) {
-    return GlassCard(
+    return GlassContainer(
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
         children: [
           ListTile(

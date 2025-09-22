@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:mobile_app/domain/entities/product.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
@@ -24,6 +25,7 @@ class ProductDetailPage extends StatelessWidget {
       child: Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: GlassAppBar(
         title: product.name,
         actions: [
@@ -42,7 +44,10 @@ class ProductDetailPage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + kToolbarHeight,
+          bottom: 120, // reserve space so content isn't hidden behind glass bar
+        ),
         child: SingleChildScrollView(
           child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +56,7 @@ class ProductDetailPage extends StatelessWidget {
             _buildProductImages(),
             
             // Product Info
-            _buildProductInfo(),
+            _buildProductInfo(context),
             
             // Specifications
             _buildSpecifications(),
@@ -62,7 +67,7 @@ class ProductDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomBar(),
+      bottomNavigationBar: _buildBottomBar(context),
       ),
     );
   }
@@ -118,7 +123,8 @@ class ProductDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildProductInfo() {
+  Widget _buildProductInfo(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -150,14 +156,17 @@ class ProductDetailPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '฿${product.price.toStringAsFixed(0)}',
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
+              Builder(builder: (context) {
+                final glass = Theme.of(context).extension<GlassTheme>()!;
+                return Text(
+                  '฿${product.price.toStringAsFixed(0)}',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: glass.priceColor,
+                  ),
+                );
+              }),
               Row(
                 children: [
                   const Icon(
@@ -335,84 +344,89 @@ class ProductDetailPage extends StatelessWidget {
 
   // Removed related products section as per request
 
-  Widget _buildBottomBar() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Add to Cart Button
-          Expanded(
-            flex: 2,
-            child: ElevatedButton(
-              onPressed: () {
-                // TODO: Add to cart
-                Get.snackbar(
-                  'เพิ่มลงตะกร้า',
-                  '${product.name} ถูกเพิ่มลงตะกร้าแล้ว',
-                  snackPosition: SnackPosition.BOTTOM,
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+  Widget _buildBottomBar(BuildContext context) {
+    final glass = Theme.of(context).extension<GlassTheme>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color labelColor = isDark ? Colors.white : Colors.black87;
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: glass.blur, sigmaY: glass.blur),
+        child: SafeArea(
+          top: false,
+          child: SizedBox(
+            height: 92,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: glass.gradient.scale(glass.opacity),
+                border: Border(
+                  top: BorderSide(color: glass.borderColor, width: glass.borderWidth),
                 ),
               ),
-              child: const Text(
-                'เพิ่มลงตะกร้า',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+              // Add to Cart Button (Glass)
+              Expanded(
+                flex: 2,
+                child: GlassCard(
+                  height: 52,
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  onTap: () {
+                    // TODO: Add to cart
+                    Get.snackbar(
+                      'เพิ่มลงตะกร้า',
+                      '${product.name} ถูกเพิ่มลงตะกร้าแล้ว',
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  },
+                  child: Center(
+                    child: Text(
+                      'เพิ่มลงตะกร้า',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: labelColor,
+                      ),
+                    ),
+                  ),
                 ),
+              ),
+
+              const SizedBox(width: 12),
+
+              // Buy Now Button (Glass)
+              Expanded(
+                flex: 2,
+                child: GlassCard(
+                  height: 52,
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  onTap: () {
+                    // TODO: Buy now
+                    Get.snackbar(
+                      'ซื้อทันที',
+                      'กำลังดำเนินการซื้อ ${product.name}',
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  },
+                  child: Center(
+                    child: Text(
+                      'ซื้อทันที',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: labelColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+                ],
               ),
             ),
           ),
-          
-          const SizedBox(width: 12),
-          
-          // Buy Now Button
-          Expanded(
-            flex: 2,
-            child: ElevatedButton(
-              onPressed: () {
-                // TODO: Buy now
-                Get.snackbar(
-                  'ซื้อทันที',
-                  'กำลังดำเนินการซื้อ ${product.name}',
-                  snackPosition: SnackPosition.BOTTOM,
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text(
-                'ซื้อทันที',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

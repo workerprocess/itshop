@@ -18,6 +18,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final glass = Theme.of(context).extension<GlassTheme>()!;
     return Card(
       elevation: 0,
       color: Colors.transparent,
@@ -137,7 +138,7 @@ class ProductCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green[300],
+                                color: glass.priceColor,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),

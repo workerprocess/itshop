@@ -183,14 +183,17 @@ class ProductListView extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                '฿${product.price.toStringAsFixed(0)}',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                                ),
-                              ),
+                              Builder(builder: (context) {
+                                final glass = Theme.of(context).extension<GlassTheme>()!;
+                                return Text(
+                                  '฿${product.price.toStringAsFixed(0)}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: glass.priceColor,
+                                  ),
+                                );
+                              }),
                               Row(
                                 children: [
                                   const Icon(

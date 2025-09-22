@@ -9,6 +9,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
   final Color borderColor;
   final Color tint;
   final Gradient backgroundGradient; // เพิ่ม background gradient
+  final Color priceColor;
 
   const GlassTheme({
     required this.blur,
@@ -19,6 +20,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
     required this.borderColor,
     required this.tint,
     required this.backgroundGradient, // เพิ่ม background gradient
+    required this.priceColor,
   });
 
   @override
@@ -31,6 +33,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
     Color? borderColor,
     Color? tint,
     Gradient? backgroundGradient,
+    Color? priceColor,
   }) {
     return GlassTheme(
       blur: blur ?? this.blur,
@@ -41,6 +44,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
       borderColor: borderColor ?? this.borderColor,
       tint: tint ?? this.tint,
       backgroundGradient: backgroundGradient ?? this.backgroundGradient,
+      priceColor: priceColor ?? this.priceColor,
     );
   }
 
@@ -56,6 +60,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
       tint: Color.lerp(tint, other.tint, t)!,
       backgroundGradient: _lerpGradient(backgroundGradient, other.backgroundGradient, t),
+      priceColor: Color.lerp(priceColor, other.priceColor, t)!,
     );
   }
 
@@ -112,6 +117,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
         borderColor: Colors.white.withOpacity(0.28),
         tint: const Color(0x55FFFFFF),
         backgroundGradient: _lightBackgroundGradient, // ใช้ Light Theme gradient
+        priceColor: Colors.black54,
       );
 
   static GlassTheme get _darkGlass => GlassTheme(
@@ -127,6 +133,7 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
         borderColor: Colors.white.withOpacity(0.22),
         tint: const Color(0x33FFFFFF),
         backgroundGradient: _darkBackgroundGradient, // ใช้ Dark Theme gradient
+        priceColor: Colors.green,
       );
 
 

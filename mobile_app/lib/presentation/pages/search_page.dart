@@ -8,6 +8,9 @@ import 'package:mobile_app/presentation/widgets/product_list_view.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_filter_chip.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_text_field.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
+import 'package:mobile_app/core/themes/glass_theme.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
 
 class SearchPage extends GetView<ProductSearchController> {
   const SearchPage({super.key});
@@ -96,9 +99,11 @@ class SearchPage extends GetView<ProductSearchController> {
             Obx(() {
               print('🔍 SearchPage: Active Filters Obx - selectedCategory = "${controller.selectedCategory}", searchText = "${controller.textSearchController.text}"');
               if (controller.selectedCategory.isNotEmpty || controller.textSearchController.text.isNotEmpty) {
-                return Container(
+                return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SingleChildScrollView(
+                  child: GlassContainer(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
@@ -117,6 +122,7 @@ class SearchPage extends GetView<ProductSearchController> {
                             onDeleted: () => controller.clearSearch(),
                           ),
                       ],
+                    ),
                     ),
                   ),
                 );
@@ -234,10 +240,29 @@ class SearchPage extends GetView<ProductSearchController> {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => controller.clearAllFilters(),
-              icon: const Icon(Icons.refresh),
-              label: const Text('ล้างตัวกรอง'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: GlassContainer(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Builder(builder: (context) {
+                  final glass = Theme.of(context).extension<GlassTheme>()!;
+                  return Center(
+                    child: OutlinedButton.icon(
+                      onPressed: () => controller.clearAllFilters(),
+                      icon: Icon(Icons.refresh, color: glass.borderColor),
+                      label: Text(
+                        'ล้างตัวกรอง',
+                        style: TextStyle(color: glass.borderColor),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: glass.borderColor, width: glass.borderWidth),
+                        backgroundColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  );
+                }),
+              ),
             ),
           ],
         ),

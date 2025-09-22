@@ -4,6 +4,7 @@ import 'package:mobile_app/presentation/controllers/home_controller.dart';
 import 'package:mobile_app/presentation/widgets/product_card.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_card.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_container.dart';
 import 'package:mobile_app/core/themes/glass_theme.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -81,7 +82,7 @@ class HomePage extends GetView<HomeController> {
                         final int nextTierPoints = status?.nextTierPoints ?? 1;
                         final String tier = status?.tier ?? '-';
                         final double progress = points / (nextTierPoints == 0 ? 1 : nextTierPoints);
-                        return GlassCard(
+                        return GlassContainer(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +145,7 @@ class HomePage extends GetView<HomeController> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GlassCard(
+                    child: GlassContainer(
                       padding: const EdgeInsets.all(12),
                       child: Builder(
                         builder: (context) {
