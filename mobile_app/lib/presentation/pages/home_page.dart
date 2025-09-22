@@ -76,10 +76,11 @@ class HomePage extends GetView<HomeController> {
                     child: Builder(
                       builder: (context) {
                         final glass = Theme.of(context).extension<GlassTheme>()!;
-                        // ตัวอย่างข้อมูลชั่วคราว
-                        const int points = 120;
-                        const int nextTierPoints = 200;
-                        final double progress = points / nextTierPoints;
+                        final status = controller.membershipStatus;
+                        final int points = status?.points ?? 0;
+                        final int nextTierPoints = status?.nextTierPoints ?? 1;
+                        final String tier = status?.tier ?? '-';
+                        final double progress = points / (nextTierPoints == 0 ? 1 : nextTierPoints);
                         return GlassCard(
                           padding: const EdgeInsets.all(16),
                           child: Column(
@@ -89,10 +90,7 @@ class HomePage extends GetView<HomeController> {
                                 children: [
                                   Icon(Icons.emoji_events, color: glass.borderColor),
                                   const SizedBox(width: 8),
-                                  const Text(
-                                    'ระดับ: Bronze',
-                                    style: TextStyle(fontWeight: FontWeight.w600),
-                                  ),
+                                  Text('ระดับ: $tier', style: const TextStyle(fontWeight: FontWeight.w600)),
                                   const Spacer(),
                                   Text(
                                     '$points/$nextTierPoints คะแนน',
@@ -150,7 +148,9 @@ class HomePage extends GetView<HomeController> {
                       padding: const EdgeInsets.all(12),
                       child: Builder(
                         builder: (context) {
-                          final items = controller.recommendedProducts.take(2).toList();
+                          final items = controller.recentViewed.isNotEmpty
+                              ? controller.recentViewed
+                              : controller.recommendedProducts.take(2).toList();
                           if (items.isEmpty) {
                             return Row(
                               children: const [

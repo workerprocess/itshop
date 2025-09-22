@@ -7,6 +7,9 @@ import 'package:mobile_app/domain/repositories/product_repository.dart';
 import 'package:mobile_app/domain/repositories/category_repository.dart';
 import 'package:mobile_app/domain/usecases/product_usecases.dart';
 import 'package:mobile_app/domain/usecases/category_usecases.dart';
+import 'package:mobile_app/domain/usecases/user_activity_usecases.dart';
+import 'package:mobile_app/domain/repositories/user_activity_repository.dart';
+import 'package:mobile_app/data/repositories/user_activity_repository_impl.dart';
 
 class AppBindings extends Bindings {
   @override
@@ -20,6 +23,7 @@ class AppBindings extends Bindings {
     // Repositories
     Get.put<ProductRepository>(ProductRepositoryImpl(Get.find(), useMockData: true));
     Get.put<CategoryRepository>(CategoryRepositoryImpl(Get.find(), useMockData: true));
+    Get.put<UserActivityRepository>(UserActivityRepositoryImpl(Get.find()));
     
     // Use cases
     Get.put(GetProductsUseCase(Get.find()));
@@ -30,5 +34,7 @@ class AppBindings extends Bindings {
     Get.put(SearchProductsUseCase(Get.find()));
     Get.put(GetCategoriesUseCase(Get.find()));
     Get.put(GetCategoryByIdUseCase(Get.find()));
+    Get.put(GetMembershipStatusUseCase(Get.find()));
+    Get.put(GetRecentViewedProductsUseCase(Get.find()));
   }
 }
