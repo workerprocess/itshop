@@ -78,12 +78,12 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFF6B6B), // สีแดงสด
+      Color(0xFFFF6B9D), // สีชมพูสด
       Color(0xFF4ECDC4), // สีเขียวมิ้น
       Color(0xFF45B7D1), // สีฟ้าสด
-      Color(0xFF96CEB4), // สีเขียวอ่อน
+      Color(0xFF6C5CE7), // สีม่วง
     ],
-    stops: [0.0, 0.3, 0.7, 1.0],
+    stops: [0.0, 0.33, 0.66, 1.0],
   );
 
   // สร้าง gradient สำหรับ Dark Theme
@@ -91,12 +91,12 @@ class GlassTheme extends ThemeExtension<GlassTheme> {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
+      Color(0xFF1A1A2E), // สีน้ำเงินเข้มมาก
+      Color(0xFF533A7B), // สีม่วงเข้ม
+      Color(0xFF7B2CBF), // สีม่วงสด
       Color(0xFF2D3748), // สีเทาเข้ม
-      Color(0xFF4A5568), // สีเทาปานกลาง
-      Color(0xFF2B6CB0), // สีน้ำเงินเข้ม
-      Color(0xFF1A365D), // สีน้ำเงินเข้มมาก
     ],
-    stops: [0.0, 0.3, 0.7, 1.0],
+    stops: [0.0, 0.33, 0.66, 1.0],
   );
 
   static GlassTheme get _lightGlass => GlassTheme(

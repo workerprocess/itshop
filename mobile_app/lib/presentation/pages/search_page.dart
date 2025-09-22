@@ -6,6 +6,8 @@ import 'package:mobile_app/presentation/controllers/product_search_controller.da
 import 'package:mobile_app/presentation/widgets/product_grid_view.dart';
 import 'package:mobile_app/presentation/widgets/product_list_view.dart';
 import 'package:mobile_app/presentation/widgets/glass/glass_app_bar.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_filter_chip.dart';
+import 'package:mobile_app/presentation/widgets/glass/glass_text_field.dart';
 
 class SearchPage extends GetView<ProductSearchController> {
   const SearchPage({super.key});
@@ -41,23 +43,16 @@ class SearchPage extends GetView<ProductSearchController> {
               // Search Bar
               Padding(
               padding: const EdgeInsets.all(16),
-              child: TextField(
+              child: GlassTextField(
                 controller: controller.textSearchController,
-                decoration: InputDecoration(
-                  hintText: 'ค้นหาสินค้า...',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: controller.textSearchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => controller.clearSearch(),
-                        )
-                      : null,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                ),
+                hintText: 'ค้นหาสินค้า...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: controller.textSearchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => controller.clearSearch(),
+                      )
+                    : null,
                 onChanged: (value) => controller.searchProducts(value),
               ),
             ),
@@ -78,7 +73,7 @@ class SearchPage extends GetView<ProductSearchController> {
                           
                           return Padding(
                             padding: const EdgeInsets.only(right: 8),
-                            child: FilterChip(
+                            child: GlassFilterChip(
                               label: Text(category.name),
                               selected: isSelected,
                               onSelected: (selected) {
@@ -88,9 +83,6 @@ class SearchPage extends GetView<ProductSearchController> {
                                   controller.clearCategoryFilter();
                                 }
                               },
-                              backgroundColor: Colors.grey[200],
-                              selectedColor: Colors.blue[100],
-                              checkmarkColor: Colors.blue,
                             ),
                           );
                         },
